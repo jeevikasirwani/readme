@@ -14,21 +14,33 @@ export const blogRouter = new Hono<{
 }>();
 
 blogRouter.use(async (c, next) => {
-  const jwt = c.req.header("Authorization");
-  if (!jwt) {
-    c.status(401);
-    return c.json({ error: "unauthorized" });
+  const auth = c.req.header("Authorization");
+  console.log("Authorization Header:", auth); 
+
+  if (!auth || !auth.startsWith("Bearer ")) {
+    return c.json({ error: "Unauthorized: Bearer token missing" }, 401);
   }
-  const token = jwt.split(" ")[1];
-  const payload = await verify(token, c.env.JWT_SECRET);
-  if (!payload) {
-    c.status(401);
-    return c.json({ error: "unauthorized" });
+
+  const token = auth.split(" ")[1];
+  console.log("Extracted Token:", token);
+  try {
+    const payload = await verify(token, c.env.JWT_SECRET, "HS256");
+
+    if (!payload || typeof payload !== "object" || !("id" in payload)) {
+      return c.json({ error: "Unauthorized: Invalid token payload" }, 401);
+    }
+
+    c.set("userId", (payload as { id: string }).id);
+    await next();
+  } catch (err) {
+    console.error("JWT Verify Error:", err); 
+    return c.json(
+      { error: "Unauthorized: Invalid token", detail: (err as Error).message },
+      401
+    );
   }
- // @ts-ignore
-  c.set("userId", payload.id);
-  await next();
 });
+
 
 blogRouter.post("/", async (c) => {
   const userId = c.get("userId");
