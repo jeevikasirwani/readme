@@ -5,31 +5,18 @@ import { sign, verify } from "hono/jwt";
 import {userRouter} from "./routes/userRouter";
 import {blogRouter} from "./routes/blogRouter";
 
-const app = new Hono<{
-  Bindings: {
-    DATABASE_URL: string;
-    JWT_SECRET: string;
-  };
-}>();
+import { cors } from 'hono/cors'
 
-app.post("/api/v1/blog/*", async (c, next) => {
- 
-  const a = c.req.header("Authorization");
 
-  if (!a) {
-    c.status(401);
-    return c.json({ error: "forbidden access" });
-  }
-  const token = a.split("")[1];
-  const payload = await verify(token, c.env.JWT_SECRET);
-  if (!payload) {
-    c.status(401);
-    return c.json({ error: "unauthorized" });
-  }
-  c.set("jwtPayload", payload.id);
-  await next();
-});
-app.route("/api/v1/user",userRouter);
-app.route("/api/v1/blog",blogRouter);
 
-export default app;
+const app = new Hono();
+app.use(cors())
+
+app.get('/', (c) => c.text('You server is running! Check backend routes .'));
+
+app.route('/api/v1/users', userRouter)
+app.route('/api/v1/blog', blogRouter)
+
+
+export default app
+
