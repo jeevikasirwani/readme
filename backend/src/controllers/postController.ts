@@ -26,8 +26,8 @@ export async function createPost(c:Context) {
 	const post = await prisma.post.create({
 		data: {
 			title: body.title,
-			description: body.content,
-			userId: userId
+			description: body.description,
+			userId
 		}
 	});
 	return c.json({
@@ -45,11 +45,11 @@ export async function updatePostById(c:Context) {
 	prisma.post.update({
 		where: {
 			id: body.id,
-			userId: userId
+			userId
 		},
 		data: {
 			title: body.title,
-			description: body.content
+			description: body.description
 		}
 	});
 
