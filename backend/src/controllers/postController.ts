@@ -10,7 +10,7 @@ export const blogRouter = new Hono<{
         JWT_SECRET: string;
     },
     Variables: {
-        userId: Number
+        userId: number
     }
 }>();
 
