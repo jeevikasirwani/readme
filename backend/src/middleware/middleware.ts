@@ -12,7 +12,7 @@ export async function authMiddleware(c:any, next : Next){
         }
         try{
             const decoded = await Jwt.verify(token ,c.env.JWT_SECRET); 
-            c.set("userId", decoded); 
+            c.set("userId", decoded.id); 
 
             await next();
     

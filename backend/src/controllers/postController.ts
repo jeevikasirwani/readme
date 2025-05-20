@@ -17,7 +17,12 @@ export const blogRouter = new Hono<{
 
 
 export async function createPost(c:Context) {
-	const userId = c.get('userId');
+	const user = Number(c.get('userId'));
+	const userId=Number(user);
+	if (isNaN(userId)) {
+    return c.json({ error: "Invalid or missing userId" }, 400);
+  }
+
 	const prisma = new PrismaClient({
 		datasourceUrl: c.env?.DATABASE_URL	,
 	}).$extends(withAccelerate());
@@ -27,7 +32,7 @@ export async function createPost(c:Context) {
 		data: {
 			title: body.title,
 			description: body.description,
-			userId
+			userId:userId
 		}
 	});
 	return c.json({
@@ -36,7 +41,11 @@ export async function createPost(c:Context) {
 }
 
 export async function updatePostById(c:Context) {
-	const userId = c.get('userId');
+	const user = Number(c.get('userId'));
+	const userId=Number(user);
+	if (isNaN(userId)) {
+    return c.json({ error: "Invalid or missing userId" }, 400);
+  }
 	const prisma = new PrismaClient({
 		datasourceUrl: c.env?.DATABASE_URL	,
 	}).$extends(withAccelerate());
@@ -45,7 +54,7 @@ export async function updatePostById(c:Context) {
 	prisma.post.update({
 		where: {
 			id: body.id,
-			userId
+			userId:userId
 		},
 		data: {
 			title: body.title,
@@ -57,7 +66,12 @@ export async function updatePostById(c:Context) {
 }
 
 export async function getAllPosts(c:Context) {
-	const id =Number( c.req.param('id'));
+	const rawId =c.req.param('id');
+	 const id = Number(rawId);
+
+  if (isNaN(id)) {
+    return c.json({ error: "Invalid ID" }, 400);
+  }
 	const prisma = new PrismaClient({
 		datasourceUrl: c.env?.DATABASE_URL	,
 	}).$extends(withAccelerate());
