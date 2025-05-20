@@ -65,7 +65,7 @@ export async function updatePostById(c:Context) {
 	return c.text('updated post');
 }
 
-export async function getAllPosts(c:Context) {
+export async function getPostById(c:Context) {
 	const rawId =c.req.param('id');
 	 const id = Number(rawId);
 
@@ -86,3 +86,16 @@ export async function getAllPosts(c:Context) {
 }
 
 
+export async function getAllPosts(c: Context) {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env?.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  const getpost = await prisma.post.findMany({
+    include: {
+      User: true,
+    },
+  });
+
+  return c.json(getpost);
+}
