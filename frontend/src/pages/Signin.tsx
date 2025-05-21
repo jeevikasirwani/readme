@@ -5,11 +5,11 @@ import { Warning } from "../components/Warning";
 import { InputBox } from "../components/InputBox";
 // import type { SignUpInput } from "../../../common/src/index";
 
-import { useAuthState } from "../components/Auth";
+import { useAuth2State } from "../components/Auth";
 function Signin() {
 
-  
-   const { username, email, password, setUsername, setEmail, setPassword } = useAuthState();
+
+   const { email, password, setEmail, setPassword } = useAuth2State();
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-blue-100 to-white">

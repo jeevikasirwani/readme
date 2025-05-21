@@ -1,7 +1,7 @@
 import React, { useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom"; 
 import { create } from "zustand";
-import type { SignUpInput } from "../../../common/src/index";
+import type { SignInInput, SignUpInput } from "../../../common/src/index";
 
 function Auth({ type }: { type: "signup" | "signin" }) {
   const navigate = useNavigate(); 
@@ -137,6 +137,22 @@ export const useAuthState = create<AuthState>((set) => ({
   email: "",
   password: "",
   setUsername: (username) => set({ username }),
+  setEmail: (email) => set({ email }),
+  setPassword: (password) => set({ password }),
+}));
+
+
+
+interface Auth2State extends SignInInput {
+  setEmail: (email: string) => void;
+  setPassword: (password: string) => void;
+}
+
+export const useAuth2State = create<Auth2State>((set) => ({
+  
+  email: "",
+  password: "",
+ 
   setEmail: (email) => set({ email }),
   setPassword: (password) => set({ password }),
 }));
