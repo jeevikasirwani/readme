@@ -5,7 +5,7 @@ import Auth from "../components/Auth";
 function Signup() {
   return (
     <div className="grid grid-cols-2">
-      <div><Auth/></div>
+      <div><Auth type="signup"/></div>
       <div className="invisible md:visible">
         <Quote />
       </div>
