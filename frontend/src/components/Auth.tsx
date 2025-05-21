@@ -12,18 +12,18 @@ function Auth({ type }: { type: "signup" | "signin" }) {
       {/* box layout */}
       <div className="flex  justify-center">
         {/* extra div */}
-        <div>
+        <div className="px-10">
           {/* title */}
           <div className="text-3xl font-bold justify-center">
             Create an Account
           </div>
           <div className="text-slate-400 underline">
             Already have an account?{" "}
-            <Link className=" pl-2 underline" to={"/signin"} />
+            <Link className="cursor-pointer pl-2 underline" to={"/signin"} />
             Login
           </div>
           {/* label input */}
-          <div>
+          <div className="pt-10">
             <LabelledInput
               label="Username"
               type="text"
@@ -73,10 +73,10 @@ function LabelledInput({
   id = "input",
 }: InputType) {
   return (
-    <div className="justify-center">
+    <div className="justify-center pb-4">
       <label
         htmlFor={id}
-        className="mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        className="mb-2 text-sm font-medium text-gray-900 d"
       >
         {label}
       </label>
