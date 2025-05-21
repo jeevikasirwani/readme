@@ -7,9 +7,13 @@ function Auth({ type }: { type: "signup" | "signin" }) {
   const { username, email, password, setUsername, setEmail, setPassword } =
     useAuthState();
   return (
+    // full dev
     <div className="h-screen bg-white flex flex-col justify-center">
+      {/* box layout */}
       <div className="flex  justify-center">
+        {/* extra div */}
         <div>
+          {/* title */}
           <div className="text-3xl font-bold justify-center">
             Create an Account
           </div>
@@ -18,7 +22,7 @@ function Auth({ type }: { type: "signup" | "signin" }) {
             <Link className=" pl-2 underline" to={"/signin"} />
             Login
           </div>
-
+          {/* label input */}
           <div>
             <LabelledInput
               label="Username"
