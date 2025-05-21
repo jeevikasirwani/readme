@@ -124,42 +124,6 @@ function LabelledInput({
   );
 }
 
-// function LabelledInput({
-//   label,
-//   placeholder,
-//   onChange,
-//   value,
-//   id = "input",
-//   type,
-// }: InputType) {
-//     const [showpass,setShowpass]=useState(false);
-//     const ispass=type==='password';
-//   return (
-//     <div className="justify-center pb-4">
-//       <label htmlFor={id} className="mb-2 text-sm font-medium text-gray-900 d">
-//         {label}
-//       </label>
-//       <input
-//         type={ispass ? (showpass ? "text" : "password") :type || "text"}
-//         id={id}
-//         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block  p-2.5 " 
-//         placeholder={placeholder}
-//         onChange={onChange}
-//         value={value}
-//         required
-//       />
-//      {ispass && (
-//         <button
-//           type="button"
-//           onClick={() => setShowpass((prev) => !prev)}
-//           className="absolute top-9 right-3 text-sm text-blue-600 focus:outline-none"
-//         >
-//           {showpass ? "Hide" : "Show"}
-//         </button>
-//       )}
-//     </div>
-//   );
-// }
 
 // zustand state
 interface AuthState extends SignUpInput {
