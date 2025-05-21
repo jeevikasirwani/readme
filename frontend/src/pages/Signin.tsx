@@ -9,7 +9,7 @@ function Signin() {
         <div>
           <Auth type='signin'/>
         </div>
-        <div className='invisible lg:visible'>
+        <div className='hidden lg:block'>
           <Quote/>
         </div>
       </div>
