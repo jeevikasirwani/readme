@@ -4,7 +4,7 @@ import  Signin  from './pages/Signin'
 import  Blog  from './pages/Blog'
 
 
-export function App(){
+ function App(){
 
 
   return (
@@ -19,3 +19,5 @@ export function App(){
     </>
   )
 }
+
+export default App;
