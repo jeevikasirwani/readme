@@ -8,7 +8,7 @@ function Auth({ type }: { type: "signup" | "signin" }) {
     useAuthState();
   return (
     <div className="h-screen bg-white flex flex-col justify-center">
-      <div className="flex justify-center">
+      <div className="flex  justify-center">
         <div>
           <div className="text-3xl font-bold justify-center">
             Create an Account
@@ -18,15 +18,35 @@ function Auth({ type }: { type: "signup" | "signin" }) {
             <Link className=" pl-2 underline" to={"/signin"} />
             Login
           </div>
+
+          <div>
+            <LabelledInput
+              label="Username"
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              id="username"
+            />
+            <LabelledInput
+              label="Email"
+              type="email"
+              placeholder="Enter your Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              id="username"
+            />
+            <LabelledInput
+              label="Password"
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              id="username"
+            />
+          </div>
         </div>
       </div>
-      <LabelledInput
-        label="Username"
-        placeholder="Enter your username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        id="username"
-      />
     </div>
   );
 }
@@ -37,6 +57,7 @@ interface InputType {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   value: string;
   id?: string;
+  type?: string;
 }
 
 function LabelledInput({
@@ -44,6 +65,7 @@ function LabelledInput({
   placeholder,
   onChange,
   value,
+  type,
   id = "input",
 }: InputType) {
   return (
@@ -55,9 +77,9 @@ function LabelledInput({
         {label}
       </label>
       <input
-        type="text"
+        type={type || "text"}
         id={id}
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-lg p-2.5 " 
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-lg p-2.5 "
         placeholder={placeholder}
         onChange={onChange}
         value={value}
