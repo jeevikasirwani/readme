@@ -12,15 +12,22 @@ function Auth({ type }: { type: "signup" | "signin" }) {
       {/* box layout */}
       <div className="flex  justify-center">
         {/* extra div */}
-        <div className="px-10">
+        <div className="px-7">
           {/* title */}
           <div className="text-3xl font-bold justify-center">
             Create an Account
           </div>
-          <div className="text-slate-400 underline">
-            Already have an account?{" "}
-            <Link className="cursor-pointer pl-2 underline" to={"/signin"} />
-            Login
+          <div className="text-slate-400">
+            {type === "signin"
+              ? "Don't have an account"
+              : "Already have an account?"}
+            <Link
+              className="cursor-pointer pl-2 underline"
+              to={type === "signin" ? "/signin" : "/signup"}
+            >
+              {type === "signin" ? "Sign Up" : "Sign In"}
+            </Link>
+            
           </div>
           {/* label input */}
           <div className="pt-10">
@@ -49,14 +56,19 @@ function Auth({ type }: { type: "signup" | "signin" }) {
               id="username"
             />
             {/* button */}
-            <button type="button" className="text-white w-full bg-gray-700 hover:bg-gray-900 outline-none focus:outline-white border-white rounded-lg font-medium px-5 py-2.5 me-2 mb-2 ">{type==='signin'?"Sign In":'Sign Up'}</button>
+            <button
+              type="button"
+              className="text-white w-full bg-gray-700 hover:bg-gray-900 outline-none focus:outline-white border-white rounded-lg font-medium px-5 py-2.5 me-2 mb-2 "
+            >
+              {type === "signin" ? "Sign In" : "Sign Up"}
+            </button>
           </div>
         </div>
       </div>
     </div>
   );
 }
-// label and input 
+// label and input
 interface InputType {
   label: string;
   placeholder: string;
@@ -76,10 +88,7 @@ function LabelledInput({
 }: InputType) {
   return (
     <div className="justify-center pb-4">
-      <label
-        htmlFor={id}
-        className="mb-2 text-sm font-medium text-gray-900 d"
-      >
+      <label htmlFor={id} className="mb-2 text-sm font-medium text-gray-900 d">
         {label}
       </label>
       <input
