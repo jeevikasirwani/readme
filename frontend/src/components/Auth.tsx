@@ -48,6 +48,8 @@ function Auth({ type }: { type: "signup" | "signin" }) {
               onChange={(e) => setPassword(e.target.value)}
               id="username"
             />
+            {/* button */}
+            <button type="button" className="text-white w-full bg-gray-700 hover:bg-gray-900 outline-none focus:outline-white border-white rounded-lg font-medium px-5 py-2.5 me-2 mb-2 ">Sign Up</button>
           </div>
         </div>
       </div>
