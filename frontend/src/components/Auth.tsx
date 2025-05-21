@@ -54,7 +54,7 @@ function Auth({ type }: { type: "signup" | "signin" }) {
     </div>
   );
 }
-
+// label and input 
 interface InputType {
   label: string;
   placeholder: string;
@@ -83,7 +83,7 @@ function LabelledInput({
       <input
         type={type || "text"}
         id={id}
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-lg p-2.5 "
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block  p-2.5 "
         placeholder={placeholder}
         onChange={onChange}
         value={value}
@@ -92,7 +92,7 @@ function LabelledInput({
     </div>
   );
 }
-
+// zustand state
 interface AuthState extends SignUpInput {
   setUsername: (username: string) => void;
   setEmail: (email: string) => void;
