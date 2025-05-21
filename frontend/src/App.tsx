@@ -8,7 +8,7 @@ import  Blog  from './pages/Blog'
 
 
   return (
-    <>
+  
     <BrowserRouter>
     <Routes>
       <Route path="/signup" element={<Signup />} />
@@ -16,7 +16,7 @@ import  Blog  from './pages/Blog'
           <Route path="/blog/:id" element={<Blog />} />
     </Routes>
     </BrowserRouter>
-    </>
+    
   )
 }
 
