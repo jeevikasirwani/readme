@@ -20,7 +20,10 @@ function BlogCard({
         </div>
       </div>
       <div>{title}</div>
-      <div>{description}</div>
+      <div>{description.slice(0,100)+"..."}</div>
+      <div>
+        {`${Math.ceil(description.length/100)}minutes`}
+      </div>
     </>
   );
 }

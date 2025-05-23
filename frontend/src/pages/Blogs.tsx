@@ -1,8 +1,9 @@
 import React from 'react'
+import BlogCard from '../components/BlogCard'
 
 function Blogs() {
   return (
-    <div>Blogs</div>
+    <div><BlogCard authorname='jeevika' title='title' description='descript' publishedDate='rn'/></div>
   )
 }
 
