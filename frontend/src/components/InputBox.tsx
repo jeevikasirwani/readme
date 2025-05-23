@@ -4,7 +4,7 @@ interface InputType {
   label: string;
   placeholder: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  
   id?: string;
   type?: string;
 }
@@ -12,7 +12,7 @@ export function InputBox({
   label,
   placeholder,
   onChange,
-  value,
+  
   type,
   id = "input",
 }: InputType) {
@@ -36,7 +36,7 @@ export function InputBox({
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5 pr-16"
           placeholder={placeholder}
           onChange={onChange}
-          value={value}
+          
           required
         />
         {isPassword && (
