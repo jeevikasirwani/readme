@@ -1,9 +1,28 @@
-import React from 'react'
+import React from "react";
 
-function BlogCard() {
+interface BlogCardIn {
+  authorname: string;
+  title: string;
+  description: string;
+  publishedDate: string;
+}
+function BlogCard({
+  authorname,
+  title,
+  description,
+  publishedDate,
+}: BlogCardIn) {
   return (
-    <div>BlogCard</div>
-  )
+    <>
+      <div>
+        <div>
+          {authorname} . {publishedDate}
+        </div>
+      </div>
+      <div>{title}</div>
+      <div>{description}</div>
+    </>
+  );
 }
 
-export default BlogCard
+export default BlogCard;
