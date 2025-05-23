@@ -4,10 +4,52 @@ import {Header} from "../components/Header";
 import { Warning } from "../components/Warning";
 import { InputBox } from "../components/InputBox";
 // import type { SignUpInput } from "../../../common/src/index";
+import axios from 'axios';
+import { useState } from "react";
+import {  useNavigate } from "react-router-dom";
 
 import { useAuthState } from "../components/Auth";
 function Signup() {
+  const navigate = useNavigate(); 
+     const [error, setError] = useState("");
+const handleSignup=async()=>{
+  
+  try{
+    
+    const response=await axios.post("https://backend.jeevika-sirwani2003.workers.dev/",{
+      username:username,
+      email:email,
+      password:password
+    });
+     localStorage.setItem("token",response.data.token);
+     localStorage.setItem("username",response.data.user.username);
+     localStorage.setItem("email",response.data.user.email);
+      localStorage.setItem("userId",response.data.user.userId);
+    navigate('/blogs',{state:{username:name}})
+  }
+ catch(error){
+                        let errorMessage = "Invalid input. Please try again.";
+            
+                        if (axios.isAxiosError(error)) {
+                            if (error.response) {
+                                // Access to config, request, and response
+                                errorMessage = error.response.data.error || error.response.data.message || errorMessage;
+                            } else if (error.request) {
+                                // The request was made but no response was received
+                                errorMessage = "No response received from server. Please try again.";
+                            } else {
+                                // Something happened in setting up the request that triggered an Error
+                                errorMessage = error.message;
+                            }
+                        } else {
+                            // This is not an Axios error, so it's likely a generic Error object
+                            errorMessage = (error as Error).message;
+                        }
+            
+                        setError(errorMessage);
 
+                     }
+};
   
    const { username, email, password, setUsername, setEmail, setPassword } = useAuthState();
 
@@ -45,6 +87,7 @@ function Signup() {
           <button
             type="button"
             className="text-white w-full bg-gray-700 hover:bg-gray-900 rounded-lg font-medium px-5 py-2.5 mb-2 mt-4"
+            onClick={handleSignup}
           >
             Sign Up
           </button>
