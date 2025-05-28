@@ -10,11 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.8",
     "@tailwindcss/vite": "^4.1.7",
     "frontend": "file:",
     "html-react-parser": "^5.2.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-loader-spinner": "^6.1.6",
     "react-router-dom": "^7.6.0",
     "zustand": "^5.0.4"
   },

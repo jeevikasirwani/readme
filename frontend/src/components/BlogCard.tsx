@@ -61,4 +61,6 @@ const monthString = month_names_short[month];
   );
 }
 
+
+
 export default BlogCard;
