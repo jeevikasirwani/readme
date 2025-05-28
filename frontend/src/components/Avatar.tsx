@@ -1,11 +1,11 @@
 import React from 'react';
 
 interface AvatarProps {
-    name: string;
+    name?: string;
     size?: number;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ name, size = 40 }) => {
+const Avatar: React.FC<AvatarProps> = ({ name = 'Anonymous', size = 40 }) => {
     const initials = name
         .split(' ')
         .map(word => word[0])
@@ -37,7 +37,7 @@ const Avatar: React.FC<AvatarProps> = ({ name, size = 40 }) => {
                 fontSize: size / 2.5,
             }}
         >
-            {initials}
+            {initials || 'A'}
         </div>
     );
 };

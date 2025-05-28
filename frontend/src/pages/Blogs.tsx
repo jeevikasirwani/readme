@@ -1,134 +1,119 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import BlogCard from "../components/BlogCard";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import * as Spinners from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
-interface BackendPostResponse {
-  id: number;
+interface Blog {
+  id: string;
   title: string;
   description: string;
+  User?: {
+    name?: string;
+  };
   createdAt: string;
-  userId: string;
-  User: {
-    username: string;
-  };
 }
 
-interface BackendResponse {
-  success: boolean;
-  data: {
-    posts: BackendPostResponse[];
-  };
-  error?: string;
-}
-
-function Blogs() {
-  const [posts, setPosts] = useState<BackendPostResponse[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string>("");
+const Blogs = () => {
   const navigate = useNavigate();
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchSessionAndPosts = async () => {
+    const fetchBlogs = async () => {
       try {
-        const token = localStorage.getItem("token");
-
+        const token = localStorage.getItem('token');
         if (!token) {
-          navigate("/signup");
+          navigate('/signup');
           return;
         }
 
-        const response = await axios.get(
-          "https://backend.jeevika-sirwani2003.workers.dev/api/v1/blog/allPosts",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+        const response = await axios.get('https://backend.jeevika-sirwani2003.workers.dev/api/v1/blog/allPosts', {
+          headers: {
+            Authorization: `Bearer ${token}`
           }
-        );
-
-        const result: BackendResponse = response.data;
-        console.log("API result:", result);
-
-        if (!result.success || result.data?.posts) {
-          setError(result.error || "failed");
+        });
+        console.log('API Response:', response.data);
+        
+        if (!Array.isArray(response.data)) {
+          throw new Error('Invalid response format');
+        }
+        
+        setBlogs(response.data);
+        setError(null);
+      } catch (error) {
+        console.error('Error fetching blogs:', error);
+        if (axios.isAxiosError(error) && error.response?.status === 401) {
+          navigate('/signup');
           return;
         }
-
-        const formattedPosts: BackendPostResponse[] = result.data.posts.map(
-          (post: BackendPostResponse) => ({
-            id: post.id,
-            title: post.title,
-            description: post.description,
-            createdAt: post.createdAt,
-            userId: post.userId,
-            User: {
-              username: post.User?.username || "Unknown",
-            },
-          })
-        );
-
-        setPosts(formattedPosts);
-      } catch (error) {
-        console.error("Error fetching session or posts:", error);
-        setError("An error occurred while fetching posts.");
-        navigate("/signup");
+        setError('Failed to load blogs');
+        setBlogs([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchSessionAndPosts();
+    fetchBlogs();
   }, [navigate]);
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen w-screen">
-        <Spinners.Oval
-          visible={true}
-          height={50}
-          width={50}
-          color="#000000"
-          secondaryColor="#000000"
-          strokeWidth={3}
-          strokeWidthSecondary={4}
-          ariaLabel="oval-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-        />
+      <div >
+        <Skeleton width={120}/>
       </div>
+      // <div className="max-w-3xl mx-auto px-4">
+      //   {[...Array(3)].map((_, index) => (
+      //     <div key={index} className="border-b border-gray-200 py-6">
+      //       <div className="flex items-center mb-4">
+      //         <Skeleton circle width={32} height={32} />
+      //         <div className="ml-2 flex-grow">
+      //           <Skeleton width={120} />
+      //         </div>
+      //         <Skeleton width={100} />
+      //       </div>
+      //       <Skeleton height={32} width="80%" className="mb-4" />
+      //       <Skeleton height={200} className="mb-4" />
+      //       <div className="space-y-2 mb-4">
+      //         <Skeleton count={3} />
+      //       </div>
+      //       <div className="flex justify-between items-center">
+      //         <Skeleton width={60} />
+      //         <div className="flex space-x-2">
+      //           <Skeleton width={20} height={20} />
+      //           <Skeleton width={20} height={20} />
+      //           <Skeleton width={20} height={20} />
+      //         </div>
+      //       </div>
+      //     </div>
+      //   ))}
+      // </div>
     );
   }
 
   if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen w-screen">
-        <div className="text-red-600 text-lg">{error}</div>
-      </div>
-    );
+    return <div className="text-red-500 p-4 max-w-3xl mx-auto">{error}</div>;
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-      <div className="flex-grow p-4 sm:p-6 md:p-8 max-w-4xl mx-auto w-full">
-        <div>
-          {posts
-            .slice()
-            .reverse()
-            .map((posts) => (
-              <BlogCard
-                key={posts.id}
-                authorname={posts.User?.username}
-                publishedDate={posts.createdAt}
-                title={posts.title}
-                description={posts.description}
-              />
-            ))}
-        </div>
-      </div>
+    <div className="max-w-3xl mx-auto px-4">
+      {blogs && blogs.length > 0 ? (
+        blogs.map((blog) => (
+          <BlogCard
+            key={blog.id}
+            authorname={blog.User?.name || 'Anonymous'}
+            title={blog.title}
+            description={blog.description}
+            publishedDate={blog.createdAt}
+          />
+        ))
+      ) : (
+        <div className="text-center py-4">No blogs found</div>
+      )}
     </div>
   );
-}
+};
 
 export default Blogs;
