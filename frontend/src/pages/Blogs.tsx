@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import BlogCard from "../components/BlogCard";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface Blog {
   id: string;
@@ -24,32 +24,35 @@ const Blogs = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (!token) {
-          navigate('/signup');
+          navigate("/signup");
           return;
         }
 
-        const response = await axios.get('https://backend.jeevika-sirwani2003.workers.dev/api/v1/blog/allPosts', {
-          headers: {
-            Authorization: `Bearer ${token}`
+        const response = await axios.get(
+          "https://backend.jeevika-sirwani2003.workers.dev/api/v1/blog/allPosts",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
-        console.log('API Response:', response.data);
-        
+        );
+        console.log("API Response:", response.data);
+
         if (!Array.isArray(response.data)) {
-          throw new Error('Invalid response format');
+          throw new Error("Invalid response format");
         }
-        
+
         setBlogs(response.data);
         setError(null);
       } catch (error) {
-        console.error('Error fetching blogs:', error);
+        console.error("Error fetching blogs:", error);
         if (axios.isAxiosError(error) && error.response?.status === 401) {
-          navigate('/signup');
+          navigate("/signup");
           return;
         }
-        setError('Failed to load blogs');
+        setError("Failed to load blogs");
         setBlogs([]);
       } finally {
         setLoading(false);
@@ -61,35 +64,33 @@ const Blogs = () => {
 
   if (loading) {
     return (
-      <div >
-        <Skeleton width={120}/>
+
+      <div className="max-w-3xl mx-auto px-4">
+        {[...Array(3)].map((_, index) => (
+          <div key={index} className="border-b border-gray-200 py-6">
+            <div className="flex items-center mb-4">
+              <Skeleton circle width={32} height={32} />
+              <div className="ml-2 flex-grow">
+                <Skeleton width={120} />
+              </div>
+              <Skeleton width={100} />
+            </div>
+            <Skeleton height={32} width="80%" className="mb-4" />
+            <Skeleton height={200} className="mb-4" />
+            <div className="space-y-2 mb-4">
+              <Skeleton count={3} />
+            </div>
+            <div className="flex justify-between items-center">
+              <Skeleton width={60} />
+              <div className="flex space-x-2">
+                <Skeleton width={20} height={20} />
+                <Skeleton width={20} height={20} />
+                <Skeleton width={20} height={20} />
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
-      // <div className="max-w-3xl mx-auto px-4">
-      //   {[...Array(3)].map((_, index) => (
-      //     <div key={index} className="border-b border-gray-200 py-6">
-      //       <div className="flex items-center mb-4">
-      //         <Skeleton circle width={32} height={32} />
-      //         <div className="ml-2 flex-grow">
-      //           <Skeleton width={120} />
-      //         </div>
-      //         <Skeleton width={100} />
-      //       </div>
-      //       <Skeleton height={32} width="80%" className="mb-4" />
-      //       <Skeleton height={200} className="mb-4" />
-      //       <div className="space-y-2 mb-4">
-      //         <Skeleton count={3} />
-      //       </div>
-      //       <div className="flex justify-between items-center">
-      //         <Skeleton width={60} />
-      //         <div className="flex space-x-2">
-      //           <Skeleton width={20} height={20} />
-      //           <Skeleton width={20} height={20} />
-      //           <Skeleton width={20} height={20} />
-      //         </div>
-      //       </div>
-      //     </div>
-      //   ))}
-      // </div>
     );
   }
 
@@ -103,7 +104,7 @@ const Blogs = () => {
         blogs.map((blog) => (
           <BlogCard
             key={blog.id}
-            authorname={blog.User?.name || 'Anonymous'}
+            authorname={blog.User?.name || "Anonymous"}
             title={blog.title}
             description={blog.description}
             publishedDate={blog.createdAt}
