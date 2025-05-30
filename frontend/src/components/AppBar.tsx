@@ -1,20 +1,33 @@
 import React from "react";
 import Avatar from "./Avatar";
+import { useNavigate } from "react-router-dom";
 
 function AppBar() {
+  const navigate = useNavigate();
+
+  const handleCreate = () => {
+    navigate("/blogs/create");
+  };
+
   return (
     <div className="border-b border-gray-200 flex justify-between px-10 py-4">
       <div className="font-bold text-3xl text-gray-700">Medium</div>
       
       <div className="flex flex-row items-center gap-4">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="w-6 h-6 text-gray-600"
+        <button
+          onClick={handleCreate}
+          className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+          aria-label="Create new post"
         >
-          <path d="M15.7279 9.57627L14.3137 8.16206L5 17.4758V18.89H6.41421L15.7279 9.57627ZM17.1421 8.16206L18.5563 6.74785L17.1421 5.33363L15.7279 6.74785L17.1421 8.16206ZM7.24264 20.89H3V16.6473L16.435 3.21231C16.8256 2.82179 17.4587 2.82179 17.8492 3.21231L20.6777 6.04074C21.0682 6.43126 21.0682 7.06443 20.6777 7.45495L7.24264 20.89Z"></path>
-        </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-6 h-6 text-gray-600"
+          >
+            <path d="M15.7279 9.57627L14.3137 8.16206L5 17.4758V18.89H6.41421L15.7279 9.57627ZM17.1421 8.16206L18.5563 6.74785L17.1421 5.33363L15.7279 6.74785L17.1421 8.16206ZM7.24264 20.89H3V16.6473L16.435 3.21231C16.8256 2.82179 17.4587 2.82179 17.8492 3.21231L20.6777 6.04074C21.0682 6.43126 21.0682 7.06443 20.6777 7.45495L7.24264 20.89Z"></path>
+          </svg>
+        </button>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="w-6 h-6 text-gray-600"
