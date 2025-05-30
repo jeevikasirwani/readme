@@ -10,6 +10,7 @@ import {
   Plus,
 } from "lucide-react";
 import axios from "axios";
+
 const item = {
   closed: {
     opacity: 0,
@@ -27,6 +28,7 @@ const item = {
 
 function Create() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const menuItems = [
     { icon: PenLine, label: "Write" },
@@ -39,65 +41,79 @@ function Create() {
   return (
     <div>
       <AppBar />
-      <div className="p-6 pl-70 flex flex-row justify-between">
-        <div className="relative flex items-center">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors z-10 bg-white"
-          >
-            <motion.div
-              animate={{ rotate: isOpen ? 45 : 0 }}
-              transition={{ duration: 0.2 }}
+      <div className="p-6 pl-70 flex flex-col">
+      
+        <div className="flex justify-between items-center mb-8">
+          {!isEditing && (
+            <div className="relative flex items-center">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors z-10 bg-white"
+              >
+                <motion.div
+                  animate={{ rotate: isOpen ? 45 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Plus className="w-6 h-6 text-gray-700" strokeWidth={2} />
+                </motion.div>
+              </button>
+
+              <AnimatePresence>
+                {isOpen && (
+                  <div className="absolute left-12 flex items-center">
+                    {menuItems.map((items, index) => {
+                      const Icon = items.icon;
+                      return (
+                        <motion.button
+                          key={index}
+                          custom={index}
+                          variants={item}
+                          initial="closed"
+                          animate="open"
+                          exit="closed"
+                          className="absolute p-2 rounded-full hover:bg-gray-100 transition-colors bg-white"
+                          whileHover={{ y: -4 }}
+                        >
+                          <Icon className="w-6 h-6 text-gray-700" strokeWidth={2} />
+                          <span className="sr-only">{items.label}</span>
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
+
+          <div className="bg-green-400 rounded-3xl h-8 w-20">
+            <button
+              className="pl-4 pt-1 cursor-pointer"
+              onClick={() =>
+                axios.post(
+                  "https://backend.jeevika-sirwani2003.workers.dev/blog/create"
+                )
+              }
             >
-              <Plus className="w-6 h-6 text-gray-700" strokeWidth={2} />
-            </motion.div>
-          </button>
-
-          <AnimatePresence>
-            {isOpen && (
-              <div className="absolute left-12 flex items-center">
-                {menuItems.map((items, index) => {
-                  const Icon = items.icon;
-                  return (
-                    <motion.button
-                      key={index}
-                      custom={index}
-                      variants={item}
-                      initial="closed"
-                      animate="open"
-                      exit="closed"
-                      className="absolute p-2 rounded-full hover:bg-gray-100 transition-colors bg-white"
-                      whileHover={{ y: -4 }}
-                    >
-                      <Icon className="w-6 h-6 text-gray-700" strokeWidth={2} />
-                      <span className="sr-only">{items.label}</span>
-                    </motion.button>
-                  );
-                })}
-              </div>
-            )}
-          </AnimatePresence>
-        </div>
-            <div className="text-gray-400">
-                
-            Tell Your story...
-        </div>
-        {/* publish div */}
-        <div className=" bg-green-400 rounded-3xl h-8 w-20">
-          <button
-            className="pl-4 pt-1 cursor-pointer"
-            onClick={() =>
-              axios.post(
-                "https://backend-jeevikahttps://backend.jeevika-sirwani2003.workers.dev"
-              )
-            }
-          >
-            Publish
-          </button>
+              Publish
+            </button>
+          </div>
         </div>
 
-
-    
+        {/* Editor area */}
+        <div 
+          className="text-gray-400 mt-8 cursor-text text-2xl"
+          onClick={() => setIsEditing(true)}
+        >
+          {!isEditing ? (
+            "Tell your story..."
+          ) : (
+            <textarea
+              className="w-full min-h-[200px] focus:outline-none resize-none text-gray-700"
+              placeholder="Tell your story..."
+              autoFocus
+            />
+          )}
+        </div>
       </div>
     </div>
   );
