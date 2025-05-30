@@ -9,7 +9,7 @@ import {
   MoreHorizontal,
   Plus,
 } from "lucide-react";
-
+import axios from "axios";
 const item = {
   closed: {
     opacity: 0,
@@ -27,7 +27,7 @@ const item = {
 
 function Create() {
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const menuItems = [
     { icon: PenLine, label: "Write" },
     { icon: Image, label: "Image" },
@@ -39,7 +39,7 @@ function Create() {
   return (
     <div>
       <AppBar />
-      <div className="p-6 pl-70">
+      <div className="p-6 pl-70 flex flex-row justify-between">
         <div className="relative flex items-center">
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -78,6 +78,26 @@ function Create() {
             )}
           </AnimatePresence>
         </div>
+            <div className="text-gray-400">
+                
+            Tell Your story...
+        </div>
+        {/* publish div */}
+        <div className=" bg-green-400 rounded-3xl h-8 w-20">
+          <button
+            className="pl-4 pt-1 cursor-pointer"
+            onClick={() =>
+              axios.post(
+                "https://backend-jeevikahttps://backend.jeevika-sirwani2003.workers.dev"
+              )
+            }
+          >
+            Publish
+          </button>
+        </div>
+
+
+    
       </div>
     </div>
   );
