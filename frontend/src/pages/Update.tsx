@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import AppBar from "../components/AppBar";
+import axios from "axios";
+import Skeleton from "react-loading-skeleton";
 
 function Update() {
   const { id } = useParams();
@@ -21,7 +22,7 @@ function Update() {
         }
 
         const response = await axios.get(
-          `https://backend.jeevika-sirwani2003.workers.dev/api/v1/blog/${id}`,
+          `https://backend.jeevika-sirwani2003.workers.dev/api/v1/blog/${parseInt(id || "0", 10)}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -53,7 +54,7 @@ function Update() {
       await axios.put(
         `https://backend.jeevika-sirwani2003.workers.dev/api/v1/blog/update`,
         {
-          id,
+          id: parseInt(id || "0", 10),
           title,
           description,
         },
@@ -74,7 +75,14 @@ function Update() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-8">
+        <div className="w-full max-w-3xl">
+          <Skeleton className="h-12 mb-4" width="60%" /> 
+          <Skeleton className="h-64" width="100%" />
+        </div>
+      </div>
+    );
   }
 
   if (error) {
