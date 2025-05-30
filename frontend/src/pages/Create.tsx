@@ -1,20 +1,86 @@
-import React, { useState } from 'react'
-import AppBar from '../components/AppBar'
-import { motion } from 'framer-motion'
+import React, { useState } from "react";
+import AppBar from "../components/AppBar";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  PenLine,
+  Image,
+  Video,
+  Link2,
+  MoreHorizontal,
+  Plus,
+} from "lucide-react";
+
+const item = {
+  closed: {
+    opacity: 0,
+    x: 0,
+  },
+  open: (i: number) => ({
+    opacity: 1,
+    x: (i + 1) * 50,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.2,
+    },
+  }),
+};
 
 function Create() {
-    const [isOpen,setIsOpen]=useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const menuItems = [
+    { icon: PenLine, label: "Write" },
+    { icon: Image, label: "Image" },
+    { icon: Video, label: "Video" },
+    { icon: Link2, label: "Link" },
+    { icon: MoreHorizontal, label: "More" },
+  ];
 
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-        <AppBar/>
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm48-88a8,8,0,0,1-8,8H136v32a8,8,0,0,1-16,0V136H88a8,8,0,0,1,0-16h32V88a8,8,0,0,1,16,0v32h32A8,8,0,0,1,176,128Z"></path></svg>
-    </motion.div>
-  )
+    <div>
+      <AppBar />
+      <div className="p-6 pl-70">
+        <div className="relative flex items-center">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 rounded-full hover:bg-gray-100 transition-colors z-10 bg-white"
+          >
+            <motion.div
+              animate={{ rotate: isOpen ? 45 : 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Plus className="w-6 h-6 text-gray-700" strokeWidth={2} />
+            </motion.div>
+          </button>
+
+          <AnimatePresence>
+            {isOpen && (
+              <div className="absolute left-12 flex items-center">
+                {menuItems.map((items, index) => {
+                  const Icon = items.icon;
+                  return (
+                    <motion.button
+                      key={index}
+                      custom={index}
+                      variants={item}
+                      initial="closed"
+                      animate="open"
+                      exit="closed"
+                      className="absolute p-2 rounded-full hover:bg-gray-100 transition-colors bg-white"
+                      whileHover={{ y: -4 }}
+                    >
+                      <Icon className="w-6 h-6 text-gray-700" strokeWidth={2} />
+                      <span className="sr-only">{items.label}</span>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default Create
+export default Create;

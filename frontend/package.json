@@ -15,6 +15,7 @@
     "framer-motion": "^12.15.0",
     "frontend": "file:",
     "html-react-parser": "^5.2.5",
+    "lucide-react": "^0.511.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-loader-spinner": "^6.1.6",
