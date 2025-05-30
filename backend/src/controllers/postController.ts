@@ -89,20 +89,28 @@ export async function updatePostById(c: Context) {
     }
     const { title, description, id } = parsePost.data;
 
-    const post = prisma.post.update({
+    const post = await prisma.post.findFirst({
       where: {
-        id: body.id,
+        id: id,
         userId: userId,
+      }
+    });
+
+    if (!post) {
+      return c.json({ error: "Post not found or you don't have permission to update it" }, StatusCodes.NOT_FOUND);
+    }
+
+    const updatedPost = await prisma.post.update({
+      where: {
+        id: id,
       },
       data: {
-        title: body.title,
-        description: body.description,
+        title: title,
+        description: description,
       },
     });
-    if (!post) {
-      return c.json({ msg: "Post not found" }, StatusCodes.NOT_FOUND);
-    }
-    return c.json({ post, message: "updated post" }, StatusCodes.OK);
+
+    return c.json({ post: updatedPost, message: "updated post" }, StatusCodes.OK);
   } catch (e) {
     return c.json(
       { error: `Error updating post.${e}` },
