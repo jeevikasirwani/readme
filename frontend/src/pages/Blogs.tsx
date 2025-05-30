@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import AppBar from "../components/AppBar";
 
 interface Blog {
   id: string;
@@ -99,7 +100,10 @@ const Blogs = () => {
   }
 
   return (
+    <div>
+    <AppBar/>
     <div className="max-w-3xl mx-auto px-4">
+      
       {blogs && blogs.length > 0 ? (
         blogs.map((blog) => (
           <BlogCard
@@ -113,6 +117,7 @@ const Blogs = () => {
       ) : (
         <div className="text-center py-4">No blogs found</div>
       )}
+    </div>
     </div>
   );
 };
