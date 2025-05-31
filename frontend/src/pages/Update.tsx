@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import AppBar from "../components/AppBar";
 import axios from "axios";
-import Skeleton from "react-loading-skeleton";
 
 function Update() {
   const { id } = useParams();
@@ -77,9 +76,9 @@ function Update() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-8">
-        <div className="w-full max-w-3xl">
-          <Skeleton className="h-12 mb-4" width="60%" /> 
-          <Skeleton className="h-64" width="100%" />
+        <div className="w-full max-w-3xl animate-pulse">
+          <div className="h-12 bg-gray-200 rounded mb-4 w-3/5" />
+          <div className="h-64 bg-gray-200 rounded w-full" />
         </div>
       </div>
     );

@@ -6,7 +6,7 @@ interface WarningProps {
   to: string;
 }
 
-export function Warning({ label, buttonText, to }: WarningProps): JSX.Element {
+export function Warning({ label, buttonText, to }: WarningProps) {
   const navigate = useNavigate();
 
   return (

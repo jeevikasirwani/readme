@@ -1,11 +1,11 @@
-interface HeadinProps{
-    label:string
+interface HeadingProps {
+    label: string;
 }
 
-export function Header({label}:HeadinProps):JSX.Element{
-    return(
-         <div className="text-4xl font-bold text-center mt-4 text-gray-900">
-        {label}
-    </div>
-    )
+export function Header({label}: HeadingProps) {
+    return (
+        <div className="text-4xl font-bold text-center mt-4 text-gray-900">
+            {label}
+        </div>
+    );
 }

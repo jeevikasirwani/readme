@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import BlogCard from "../components/BlogCard";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import AppBar from "../components/AppBar";
 
 interface Blog {
@@ -65,28 +63,29 @@ const Blogs = () => {
 
   if (loading) {
     return (
-
       <div className="max-w-3xl mx-auto px-4">
         {[...Array(3)].map((_, index) => (
-          <div key={index} className="border-b border-gray-200 py-6">
+          <div key={index} className="border-b border-gray-200 py-6 animate-pulse">
             <div className="flex items-center mb-4">
-              <Skeleton circle width={32} height={32} />
+              <div className="w-8 h-8 bg-gray-200 rounded-full" />
               <div className="ml-2 flex-grow">
-                <Skeleton width={120} />
+                <div className="w-32 h-4 bg-gray-200 rounded" />
               </div>
-              <Skeleton width={100} />
+              <div className="w-24 h-4 bg-gray-200 rounded" />
             </div>
-            <Skeleton height={32} width="80%" className="mb-4" />
-            <Skeleton height={200} className="mb-4" />
+            <div className="w-4/5 h-8 bg-gray-200 rounded mb-4" />
+            <div className="w-full h-48 bg-gray-200 rounded mb-4" />
             <div className="space-y-2 mb-4">
-              <Skeleton count={3} />
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="w-full h-4 bg-gray-200 rounded" />
+              ))}
             </div>
             <div className="flex justify-between items-center">
-              <Skeleton width={60} />
+              <div className="w-16 h-4 bg-gray-200 rounded" />
               <div className="flex space-x-2">
-                <Skeleton width={20} height={20} />
-                <Skeleton width={20} height={20} />
-                <Skeleton width={20} height={20} />
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="w-5 h-5 bg-gray-200 rounded" />
+                ))}
               </div>
             </div>
           </div>
@@ -101,24 +100,23 @@ const Blogs = () => {
 
   return (
     <div>
-    <AppBar/>
-    <div className="max-w-3xl mx-auto px-4">
-      
-      {blogs && blogs.length > 0 ? (
-        blogs.map((blog) => (
-          <BlogCard
-            key={blog.id}
-            id={blog.id}
-            authorname={blog.User?.name || "Anonymous"}
-            title={blog.title}
-            description={blog.description}
-            publishedDate={blog.createdAt}
-          />
-        ))
-      ) : (
-        <div className="text-center py-4">No blogs found</div>
-      )}
-    </div>
+      <AppBar/>
+      <div className="max-w-3xl mx-auto px-4">
+        {blogs && blogs.length > 0 ? (
+          blogs.map((blog) => (
+            <BlogCard
+              key={blog.id}
+              id={blog.id}
+              authorname={blog.User?.name || "Anonymous"}
+              title={blog.title}
+              description={blog.description}
+              publishedDate={blog.createdAt}
+            />
+          ))
+        ) : (
+          <div className="text-center py-4">No blogs found</div>
+        )}
+      </div>
     </div>
   );
 };
